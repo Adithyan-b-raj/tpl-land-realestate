@@ -2,29 +2,524 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title data-wl-brand>THE AURELIA — Tower Inventory & Unit Matrix</title>
-  <link rel="stylesheet" href="theme-tokens.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-brand="brand_name">Aurelia Estate Ledger — Unit Master Matrix & Private Showing CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="whitelabel.js"></script>
   <style>
+    :root {
+      --bg-base: #11100e;
+      --bg-surface: #191815;
+      --bg-card: #201e1a;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --gold: #c5a880;
+      --gold-hover: #b09166;
+      --text-main: #f7f4ee;
+      --text-muted: #a39b8f;
+      --font-heading: 'Cinzel', serif;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --sidebar-width: 250px;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #121814; color: #F7F4EE; font-family: sans-serif; padding: 30px; }
-    .matrix { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 24px; }
-    .unit-card { background: #1A241E; border: 1px solid #2B3830; padding: 18px; cursor: pointer; }
-    .unit-num { font-size: 18px; font-weight: 700; color: #B88644; }
-    .status-avail { color: #10B981; }
-    .status-sold { color: #EF4444; }
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+    }
+    .sidebar-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .estate-logo {
+      font-family: var(--font-heading);
+      font-size: 14px;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+    .sidebar-nav {
+      list-style: none;
+      padding: 20px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+    .nav-item {
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+    .nav-item:hover, .nav-item.active {
+      background: rgba(197, 168, 128, 0.12);
+      color: #fff;
+    }
+    .nav-item.active {
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* MAIN WRAP */
+    .main-wrap {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .topbar {
+      height: 70px;
+      border-bottom: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+    }
+    .content-body {
+      padding: 32px;
+      flex: 1;
+    }
+
+    /* METRIC CARDS */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 1024px) {
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 22px;
+    }
+    .metric-label {
+      font-size: 11px;
+      font-family: var(--font-heading);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .metric-val {
+      font-size: 26px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* TAB CONTENT */
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* UNIT INVENTORY GRID */
+    .unit-matrix-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 900px) {
+      .unit-matrix-grid { grid-template-columns: 1fr; }
+    }
+    .unit-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 24px;
+      position: relative;
+    }
+    .unit-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .unit-code {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .status-badge {
+      font-size: 10px;
+      font-family: var(--font-heading);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+    .status-available { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .status-token { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .status-reserved { background: rgba(99, 102, 241, 0.2); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.4); }
+    .status-sold { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+
+    .unit-price {
+      font-size: 20px;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+    .unit-specs {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .unit-actions {
+      display: flex;
+      gap: 8px;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 14px;
+    }
+    .btn-action {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-action:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* TABLE */
+    .table-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .ledger-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .ledger-table th {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 14px 18px;
+      font-size: 11px;
+      font-family: var(--font-heading);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border-bottom: 1px solid var(--border-subtle);
+      text-align: left;
+    }
+    .ledger-table td {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+    }
+    .ledger-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+      color: #fff;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-family: var(--font-heading);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: 1px solid var(--gold);
+      background: var(--gold);
+      color: #11100e;
+      font-weight: 700;
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--gold);
+    }
+    .btn-outline:hover { background: rgba(197, 168, 128, 0.15); }
+
+    /* TOAST */
+    .toast-box {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #201e1a;
+      border: 1px solid var(--gold);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 4px;
+      font-size: 13px;
+      display: none;
+      z-index: 999;
+    }
   </style>
 </head>
-<body data-layout-archetype="split-screen-architectural-admin">
-  <div style="display:flex; justify-content:space-between; align-items:center;">
-    <h2><span data-wl-brand>THE AURELIA</span> — Tower Unit Matrix & HNI Roster</h2>
-    <a href="index.html" style="color:#B88644; text-decoration:none;">&larr; Public Dossier</a>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="estate-logo" data-brand="brand_name">Aurelia Sanctuary</div>
+      <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Private Estate Ledger</div>
+    </div>
+    <ul class="sidebar-nav">
+      <li class="nav-item active" onclick="switchLedgerTab('units', this)">
+        <span>🏛️</span>
+        <span>Unit Master Matrix</span>
+      </li>
+      <li class="nav-item" onclick="switchLedgerTab('visits', this)">
+        <span>🚘</span>
+        <span>VIP Chauffeur Showings</span>
+      </li>
+      <li class="nav-item" onclick="switchLedgerTab('dossiers', this)">
+        <span>📑</span>
+        <span>Dossier Downloads</span>
+      </li>
+      <li class="nav-item" onclick="switchLedgerTab('settings', this)">
+        <span>⚙️</span>
+        <span>Estate Settings</span>
+      </li>
+    </ul>
+    <div style="padding: 20px; font-size: 11px; color: var(--text-muted); border-top: 1px solid var(--border-subtle);">
+      D1 Cloudflare SQLite · VIP Ledger
+    </div>
+  </aside>
+
+  <!-- MAIN WRAPPER -->
+  <div class="main-wrap">
+    <header class="topbar">
+      <h2 style="font-family: var(--font-heading); font-size: 15px; letter-spacing: 0.15em;" id="topHeading">
+        Unit Master Inventory Matrix
+      </h2>
+      <a href="index.html" class="btn btn-outline" target="_blank">
+        View Public Monograph &rarr;
+      </a>
+    </header>
+
+    <main class="content-body">
+      <!-- METRICS -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-label">Gross Value In Inventory</div>
+          <div class="metric-val">₹384 Cr</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Sanctuaries Available</div>
+          <div class="metric-val" id="metricAvail">6 of 18</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Private Showings Booked</div>
+          <div class="metric-val">14 VIPs</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Dossiers Transmitted</div>
+          <div class="metric-val">84 Leads</div>
+        </div>
+      </div>
+
+      <!-- TAB 1: UNIT MATRIX -->
+      <section class="tab-pane active" id="tabUnits">
+        <div class="unit-matrix-grid" id="unitGridBox">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- TAB 2: VIP VISITS -->
+      <section class="tab-pane" id="tabVisits">
+        <div class="table-card">
+          <table class="ledger-table">
+            <thead>
+              <tr>
+                <th>Guest Name</th>
+                <th>Contact</th>
+                <th>Date & Slot</th>
+                <th>Pickup Location</th>
+                <th>VIP Qualification</th>
+                <th>Assigned Advisor</th>
+                <th>Chauffeur Status</th>
+              </tr>
+            </thead>
+            <tbody id="visitsTableBody">
+              <tr>
+                <td style="font-weight: 700; color: #fff;">Vikramaditya Oberoi</td>
+                <td>+91 98201 44520</td>
+                <td>2026-11-04 (11:00 AM)</td>
+                <td>The Leela Palace, Panaji</td>
+                <td><span class="status-badge status-token">HNW Qualified</span></td>
+                <td>Eleanor Vance</td>
+                <td><span style="color: #34d399;">● Chauffeur Confirmed</span></td>
+              </tr>
+              <tr>
+                <td style="font-weight: 700; color: #fff;">Anya Deshmukh</td>
+                <td>+91 99302 11980</td>
+                <td>2026-11-06 (04:30 PM Golden)</td>
+                <td>Taj Fort Aguada Resort</td>
+                <td><span class="status-badge status-available">Qualified Buyer</span></td>
+                <td>Marcus Sterling</td>
+                <td><span style="color: #34d399;">● Chauffeur Confirmed</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 3: DOSSIERS -->
+      <section class="tab-pane" id="tabDossiers">
+        <div class="table-card">
+          <table class="ledger-table">
+            <thead>
+              <tr>
+                <th>Investor Name</th>
+                <th>Phone Number</th>
+                <th>Confidential Email</th>
+                <th>Horizon</th>
+                <th>Timestamp</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="color: #fff; font-weight: 600;">Dr. Alistair Sterling</td>
+                <td>+44 7911 123456</td>
+                <td>sterling@harleycapital.co.uk</td>
+                <td>Immediate Token</td>
+                <td>2026-10-31 16:40</td>
+              </tr>
+              <tr>
+                <td style="color: #fff; font-weight: 600;">Priya Ruia</td>
+                <td>+91 98210 99881</td>
+                <td>pruia@ruiainvest.com</td>
+                <td>Q1 2027</td>
+                <td>2026-11-01 09:12</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 4: SETTINGS -->
+      <section class="tab-pane" id="tabSettings">
+        <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); padding: 32px; max-width: 600px; border-radius: 8px;">
+          <h3 style="font-family: var(--font-heading); font-size: 14px; letter-spacing: 0.1em; margin-bottom: 20px; color: var(--gold);">
+            Curator & Escrow Preferences
+          </h3>
+          <div style="margin-bottom: 20px;">
+            <label style="display: block; font-size: 12px; margin-bottom: 8px; color: var(--text-muted);">Concierge WhatsApp</label>
+            <input type="text" id="cfgWa" value="919061902295" style="width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border-subtle); padding: 10px 14px; color: #fff; outline: none;">
+          </div>
+          <div style="margin-bottom: 20px;">
+            <label style="display: block; font-size: 12px; margin-bottom: 8px; color: var(--text-muted);">Earnest Token Escrow Floor (INR)</label>
+            <input type="text" value="₹2,50,00,000" style="width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border-subtle); padding: 10px 14px; color: #fff; outline: none;">
+          </div>
+          <button class="btn" onclick="showToast('Estate parameters saved.')">Save Preferences</button>
+        </div>
+      </section>
+    </main>
   </div>
-  <div class="matrix">
-    <div class="unit-card"><div class="unit-num">UNIT 3401 (PENTHOUSE)</div><div>8,900 SQ.FT · ₹65.0 CR</div><div class="status-sold">● SOLD (Industrialist)</div></div>
-    <div class="unit-card"><div class="unit-num">UNIT 3201 (DUPLEX)</div><div>5,400 SQ.FT · ₹38.0 CR</div><div class="status-avail">● AVAILABLE</div></div>
-    <div class="unit-card"><div class="unit-num">UNIT 2801 (SKY VILLA)</div><div>3,850 SQ.FT · ₹24.5 CR</div><div class="status-avail">● UNDER RESERVATION</div></div>
-    <div class="unit-card"><div class="unit-num">UNIT 2401 (SKY VILLA)</div><div>3,850 SQ.FT · ₹24.5 CR</div><div class="status-sold">● SOLD (Tech Founder)</div></div>
-  </div>
+
+  <div class="toast-box" id="toastNotice"></div>
+
+  <script>
+    let units = [
+      { id: 'unit_101', code: 'Villa 01', type: 'Villa Alassio', sqft: 4850, price: '₹18.50 Cr', status: 'sold', buyer: 'Rajiv Singhania' },
+      { id: 'unit_102', code: 'Villa 02', type: 'Villa Alassio', sqft: 4850, price: '₹18.50 Cr', status: 'available', buyer: null },
+      { id: 'unit_103', code: 'Villa 03', type: 'Villa Bellagio', sqft: 6200, price: '₹24.50 Cr', status: 'token', buyer: 'Dr. Alistair Sterling' },
+      { id: 'unit_104', code: 'Villa 04', type: 'Villa Bellagio', sqft: 6200, price: '₹24.50 Cr', status: 'reserved', buyer: 'Mehta Trust' },
+      { id: 'unit_105', code: 'Villa 05', type: 'Grand Penthouse', sqft: 8400, price: '₹38.00 Cr', status: 'available', buyer: null },
+      { id: 'unit_106', code: 'Villa 06', type: 'Villa Alassio', sqft: 4850, price: '₹19.00 Cr', status: 'available', buyer: null }
+    ];
+
+    function renderUnits() {
+      const box = document.getElementById('unitGridBox');
+      box.innerHTML = '';
+      units.forEach(u => {
+        const div = document.createElement('div');
+        div.className = 'unit-card';
+        div.innerHTML = `
+          <div class="unit-header">
+            <span class="unit-code">${u.code}</span>
+            <span class="status-badge status-${u.status}">${u.status.toUpperCase()}</span>
+          </div>
+          <div class="unit-price">${u.price}</div>
+          <div class="unit-specs">
+            ${u.type} · ${u.sqft} Sq.Ft<br>
+            ${u.buyer ? `<span style="color: var(--gold);">Owner: ${u.buyer}</span>` : 'Prime Unallocated Lot'}
+          </div>
+          <div class="unit-actions">
+            <button class="btn-action" onclick="setUnitStatus('${u.id}', 'available')">Available</button>
+            <button class="btn-action" onclick="setUnitStatus('${u.id}', 'token')">Token</button>
+            <button class="btn-action" onclick="setUnitStatus('${u.id}', 'sold')">Sold</button>
+          </div>
+        `;
+        box.appendChild(div);
+      });
+    }
+
+    function setUnitStatus(id, newStatus) {
+      const u = units.find(x => x.id === id);
+      if (u) {
+        u.status = newStatus;
+        renderUnits();
+        showToast(`${u.code} status revised to ${newStatus.toUpperCase()}`);
+      }
+    }
+
+    function switchLedgerTab(tab, el) {
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+      el.classList.add('active');
+
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      if (tab === 'units') {
+        document.getElementById('tabUnits').classList.add('active');
+        document.getElementById('topHeading').textContent = 'Unit Master Inventory Matrix';
+      } else if (tab === 'visits') {
+        document.getElementById('tabVisits').classList.add('active');
+        document.getElementById('topHeading').textContent = 'VIP Chauffeur & Showing Schedule';
+      } else if (tab === 'dossiers') {
+        document.getElementById('tabDossiers').classList.add('active');
+        document.getElementById('topHeading').textContent = 'Confidential Dossier Transmission Logs';
+      } else if (tab === 'settings') {
+        document.getElementById('tabSettings').classList.add('active');
+        document.getElementById('topHeading').textContent = 'Curator & Escrow Preferences';
+      }
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toastNotice');
+      t.textContent = msg;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 3500);
+    }
+
+    renderUnits();
+  </script>
 </body>
 </html>

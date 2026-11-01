@@ -3,315 +3,976 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-wl-brand>THE AURELIA — Private Sky Villas & Penthouses</title>
+  <title data-brand="brand_name">The Aurelia Sanctuary — Ultra-Luxury Architectural Villas & Private Monograph</title>
+  <meta name="description" content="An exclusive enclave of 18 bespoke cliffside estate villas overlooking the Arabian Sea. Where raw earth meets uncompromising architectural grandeur.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="theme-tokens.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <script src="whitelabel.js"></script>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg-main, #F7F4EE);
-      color: var(--color-dark, #121814);
-      font-family: var(--font-primary, 'Plus Jakarta Sans', sans-serif);
-      line-height: 1.6;
+    :root {
+      --bg-base: #f7f4ee;
+      --bg-surface: #efebe2;
+      --bg-dark: #141311;
+      --bg-card: #ffffff;
+      --border-subtle: rgba(20, 19, 17, 0.1);
+      --border-gold: rgba(197, 168, 128, 0.4);
+      --gold: #c5a880;
+      --gold-hover: #b09166;
+      --espresso: #1a1815;
+      --sand-muted: #8c8275;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-heading: 'Cinzel', serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 16px;
+      --container-max: 1320px;
     }
-    /* Minimalist Architectural Masthead */
-    .masthead {
-      border-bottom: 1px solid var(--border-color, #DCD3C2);
-      padding: 18px 40px;
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--espresso);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background-color 0.8s ease, color 0.8s ease;
+    }
+
+    /* TIME OF DAY DYNAMIC MODES */
+    body.time-dawn {
+      --bg-base: #f5ebe1;
+      background: linear-gradient(180deg, #fcefe3 0%, #f3e6d8 100%);
+    }
+    body.time-noon {
+      --bg-base: #faf8f5;
+      background: #faf8f5;
+    }
+    body.time-golden {
+      --bg-base: #f4e8d3;
+      background: linear-gradient(180deg, #f7ebd6 0%, #ecd8bd 100%);
+    }
+    body.time-night {
+      --bg-base: #0d0c0a;
+      --bg-surface: #141311;
+      --bg-card: #1a1916;
+      --espresso: #f7f4ee;
+      --sand-muted: #a39b8f;
+      --border-subtle: rgba(255, 255, 255, 0.12);
+      color: #f7f4ee;
+      background: #0d0c0a;
+    }
+
+    .container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* TOP PRIVATE ADVISORY BAR */
+    .top-curator-bar {
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 10px 0;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--sand-muted);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: var(--bg-main, #F7F4EE);
+    }
+    .top-curator-bar a {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* NAVIGATION */
+    .navbar {
+      height: 90px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--border-subtle);
       position: sticky;
       top: 0;
+      background: rgba(247, 244, 238, 0.85);
+      backdrop-filter: blur(12px);
       z-index: 100;
+      transition: background 0.8s ease;
     }
-    .brand-title {
-      font-family: var(--font-accent, 'Cormorant Garamond', serif);
-      font-size: 26px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      font-weight: 500;
-      color: var(--color-dark, #121814);
+    body.time-night .navbar {
+      background: rgba(13, 12, 10, 0.85);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .brand-mark {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      letter-spacing: 0.2em;
       text-decoration: none;
+      color: var(--espresso);
+      font-weight: 600;
     }
-    .roman-nav {
+    .nav-links {
       display: flex;
-      gap: 32px;
+      gap: 36px;
       list-style: none;
-      font-size: 11px;
-      letter-spacing: 1.5px;
-      font-family: var(--font-mono, 'IBM Plex Mono', monospace);
     }
-    .roman-nav a { text-decoration: none; color: #57534E; transition: color 0.2s; }
-    .roman-nav a:hover { color: var(--color-primary, #B88644); }
-    .rera-stamp {
-      font-size: 11px;
-      font-family: var(--font-mono, monospace);
-      background: #EFEAE0;
-      padding: 4px 10px;
-      border: 1px solid var(--border-color);
-      color: #78716C;
+    .nav-link {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      color: var(--espresso);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.2s ease;
     }
+    .nav-link:hover { color: var(--gold); }
 
-    /* 50/50 Viewport Split Layout */
-    .split-viewport {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      min-height: calc(100vh - 65px);
-    }
-    @media (max-width: 900px) {
-      .split-viewport { grid-template-columns: 1fr; }
-    }
-
-    /* Left Scrolling Narrative Dossier */
-    .narrative-col {
-      padding: 60px 80px;
-      overflow-y: auto;
-      max-width: 680px;
-    }
-    @media (max-width: 900px) { .narrative-col { padding: 40px 24px; } }
-    .vol-badge {
-      font-family: var(--font-mono);
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 28px;
+      font-family: var(--font-heading);
       font-size: 11px;
-      color: var(--color-primary, #B88644);
-      letter-spacing: 2px;
-      margin-bottom: 20px;
-    }
-    .narrative-col h1 {
-      font-family: var(--font-accent);
-      font-size: clamp(38px, 4.5vw, 56px);
-      line-height: 1.12;
-      font-weight: 400;
-      letter-spacing: -0.5px;
-      margin-bottom: 28px;
-    }
-    .narrative-p {
-      font-size: 16px;
-      color: #44403C;
-      margin-bottom: 32px;
-      line-height: 1.8;
-    }
-
-    /* Interactive Floorplan Switcher */
-    .floorplan-card {
-      background: #EFEAE0;
-      border: 1px solid var(--border-color);
-      padding: 30px;
-      margin-bottom: 40px;
-    }
-    .plan-tabs {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 20px;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 12px;
-    }
-    .plan-tab {
-      background: none;
-      border: none;
-      font-family: var(--font-accent);
-      font-size: 18px;
-      color: #78716C;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
       cursor: pointer;
-      padding: 4px 8px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: 1px solid var(--espresso);
+      background: transparent;
+      color: var(--espresso);
     }
-    .plan-tab.active {
-      color: var(--color-primary, #B88644);
-      border-bottom: 2px solid var(--color-primary, #B88644);
+    body.time-night .btn {
+      border-color: var(--gold);
+      color: var(--gold);
     }
-    .plan-specs {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 20px;
+    .btn-gold {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #fff;
     }
-    .spec-item {
-      font-family: var(--font-mono);
-      font-size: 12px;
+    .btn-gold:hover {
+      background: var(--gold-hover);
+      border-color: var(--gold-hover);
     }
-    .spec-val { font-size: 16px; font-weight: 600; color: #121814; }
+    .btn:hover {
+      background: var(--espresso);
+      color: #fff;
+    }
+    body.time-night .btn:hover {
+      background: var(--gold);
+      color: #0d0c0a;
+    }
 
-    /* Right Pinned Visualizer Frame */
-    .viewer-col {
-      position: sticky;
-      top: 65px;
-      height: calc(100vh - 65px);
-      background: #121814;
+    /* SPLIT-SCREEN EDITORIAL HERO */
+    .split-hero {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      min-height: calc(100vh - 120px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    @media (max-width: 992px) {
+      .split-hero { grid-template-columns: 1fr; }
+    }
+    .hero-narrative-col {
+      padding: 80px 60px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      padding: 40px;
-      color: #FFF;
-      background-size: cover;
-      background-position: center;
-      transition: background-image 0.5s ease-in-out;
-      background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80');
+      justify-content: center;
+      border-right: 1px solid var(--border-subtle);
     }
-    @media (max-width: 900px) {
-      .viewer-col { position: relative; top: 0; height: 50vh; padding: 24px; }
+    .hero-eyebrow {
+      font-family: var(--font-heading);
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 24px;
     }
-    .viewer-overlay {
+    .hero-headline {
+      font-family: var(--font-serif);
+      font-size: clamp(42px, 5.5vw, 76px);
+      line-height: 1.05;
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      margin-bottom: 32px;
+    }
+    .hero-headline em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--gold);
+    }
+    .hero-prose {
+      font-size: 16px;
+      color: var(--sand-muted);
+      line-height: 1.8;
+      max-width: 480px;
+      margin-bottom: 40px;
+    }
+    .hero-action-row {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-visual-col {
+      position: relative;
+      background: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      overflow: hidden;
+      min-height: 480px;
+    }
+    .hero-visual-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(18,24,20,0.2) 0%, rgba(18,24,20,0.85) 100%);
+      background: linear-gradient(180deg, rgba(20, 19, 17, 0.1) 0%, rgba(20, 19, 17, 0.6) 100%);
     }
-    .viewer-content { position: relative; z-index: 10; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
-    .angle-btns { display: flex; gap: 8px; }
-    .angle-btn {
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: #FFF;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      padding: 6px 14px;
-      cursor: pointer;
+    .estate-badge-floating {
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
+      right: 40px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      padding: 24px 30px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #1a1815;
     }
-    .angle-btn.active { background: var(--color-primary, #B88644); border-color: var(--color-primary, #B88644); }
+    body.time-night .estate-badge-floating {
+      background: rgba(20, 19, 17, 0.9);
+      color: #f7f4ee;
+    }
 
-    /* Mortgage Calculator */
-    .emi-box {
-      background: #FFF;
-      border: 1px solid var(--border-color);
-      padding: 24px;
-      margin-top: 30px;
+    /* SUN PATH & TIME OF DAY CONTROLLER */
+    .sunpath-section {
+      padding: 40px 0;
+      border-bottom: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
     }
-    .inquire-btn {
-      background: var(--color-dark, #121814);
-      color: #FFF;
-      width: 100%;
-      border: none;
-      padding: 16px;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      letter-spacing: 2px;
+    .sunpath-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+    .sunpath-title {
+      font-family: var(--font-heading);
+      font-size: 11px;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      cursor: pointer;
-      margin-top: 16px;
-      transition: background 0.2s;
     }
-    .inquire-btn:hover { background: var(--color-primary, #B88644); }
+    .sunpath-pills {
+      display: flex;
+      gap: 8px;
+    }
+    .sunpath-btn {
+      padding: 8px 18px;
+      border: 1px solid var(--border-subtle);
+      background: transparent;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--espresso);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .sunpath-btn.active {
+      background: var(--espresso);
+      color: #fff;
+    }
+    body.time-night .sunpath-btn.active {
+      background: var(--gold);
+      color: #0d0c0a;
+    }
+
+    /* SECTION BASICS */
+    .editorial-section {
+      padding: 100px 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .section-eyebrow {
+      font-family: var(--font-heading);
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: block;
+      text-align: center;
+    }
+    .section-headline {
+      font-family: var(--font-serif);
+      font-size: clamp(32px, 4vw, 54px);
+      text-align: center;
+      font-weight: 300;
+      margin-bottom: 50px;
+    }
+
+    /* INTERACTIVE FLOORPLAN HOTSPOTS */
+    .floorplan-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 40px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+    }
+    .villa-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .villa-tab {
+      padding: 10px 24px;
+      border: 1px solid var(--border-subtle);
+      background: transparent;
+      font-family: var(--font-heading);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--espresso);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .villa-tab.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #fff;
+    }
+
+    .floorplan-canvas-wrap {
+      position: relative;
+      background: var(--bg-surface);
+      border: 1px dashed var(--border-subtle);
+      border-radius: var(--radius-sm);
+      min-height: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .blueprint-svg {
+      width: 100%;
+      max-width: 800px;
+      height: auto;
+    }
+    .hotspot {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      box-shadow: 0 0 20px var(--gold);
+      animation: pulse 2.5s infinite;
+      border: 2px solid #fff;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.15); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.9; }
+    }
+
+    /* ROOM DETAIL MODAL */
+    .room-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .room-modal-overlay.open { display: flex; }
+    .room-modal-box {
+      background: #141311;
+      color: #f7f4ee;
+      border: 1px solid var(--border-gold);
+      width: 100%;
+      max-width: 720px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      position: relative;
+    }
+    .room-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 10;
+    }
+    .room-modal-img {
+      width: 100%;
+      height: 340px;
+      object-fit: cover;
+    }
+    .room-modal-content {
+      padding: 32px;
+    }
+    .room-title {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+    .room-specs {
+      font-size: 13px;
+      color: var(--gold);
+      font-family: var(--font-heading);
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+
+    /* HNW MORTGAGE & YIELD CALCULATOR */
+    .calc-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 50px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+    }
+    @media (max-width: 850px) {
+      .calc-card { grid-template-columns: 1fr; }
+    }
+    .calc-slider-group {
+      margin-bottom: 28px;
+    }
+    .calc-slider-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-bottom: 8px;
+      font-family: var(--font-heading);
+      letter-spacing: 0.05em;
+    }
+    .calc-slider-val {
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .calc-range {
+      width: 100%;
+      height: 4px;
+      background: var(--border-subtle);
+      outline: none;
+      -webkit-appearance: none;
+    }
+    .calc-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--gold);
+      cursor: pointer;
+    }
+
+    .calc-output-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+    .emi-amount {
+      font-family: var(--font-serif);
+      font-size: 48px;
+      font-weight: 400;
+      color: var(--gold);
+      margin: 8px 0;
+    }
+
+    /* LEAD DOSSIER MODAL */
+    .dossier-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .dossier-modal-overlay.open { display: flex; }
+    .dossier-modal {
+      background: #1a1815;
+      color: #f7f4ee;
+      border: 1px solid var(--gold);
+      border-radius: var(--radius-sm);
+      width: 100%;
+      max-width: 520px;
+      padding: 40px;
+      position: relative;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label {
+      display: block;
+      font-size: 11px;
+      font-family: var(--font-heading);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      color: var(--gold);
+    }
+    .form-input, .form-select {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 12px 16px;
+      color: #fff;
+      font-size: 14px;
+      font-family: var(--font-sans);
+      outline: none;
+    }
+    .form-input:focus, .form-select:focus { border-color: var(--gold); }
+
+    /* FOOTER */
+    .footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 80px 0 40px;
+      text-align: center;
+    }
+    .footer-brand {
+      font-family: var(--font-heading);
+      font-size: 24px;
+      letter-spacing: 0.25em;
+      margin-bottom: 16px;
+    }
+    .footer-tagline {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-style: italic;
+      color: var(--sand-muted);
+      margin-bottom: 36px;
+    }
+
+    /* TOAST */
+    .toast-box {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1a1815;
+      color: #fff;
+      border: 1px solid var(--gold);
+      padding: 14px 24px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      display: none;
+      z-index: 1001;
+    }
   </style>
 </head>
-<body data-layout-archetype="split-screen-architectural-magazine">
-  <header class="masthead">
-    <a href="#" class="brand-title" data-wl-brand>THE AURELIA</a>
-    <ul class="roman-nav">
-      <li><a href="#vision">I · VISION</a></li>
-      <li><a href="#residences">II · RESIDENCES</a></li>
-      <li><a href="#penthouse">III · PENTHOUSE</a></li>
-      <li><a href="admin.html">IV · INVENTORY</a></li>
-    </ul>
-    <div class="rera-stamp">RERA #P51800049210</div>
+<body class="time-noon">
+
+  <!-- TOP ADVISORY -->
+  <div class="top-curator-bar">
+    <div class="container" style="display: flex; justify-content: space-between; width: 100%;">
+      <span>Private Villa Enclave · 18 Estates · North Goa Bluff</span>
+      <div>
+        <span>Concierge: </span>
+        <a href="https://wa.me/919061902295" data-brand="brand_wa">+91 90619 02295</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="brand-mark" data-brand="brand_name">Aurelia Sanctuary</a>
+      <ul class="nav-links">
+        <li><a href="#estates" class="nav-link">The Villas</a></li>
+        <li><a href="#floorplans" class="nav-link">Architectural Hotspots</a></li>
+        <li><a href="#mortgage" class="nav-link">Investment Ledger</a></li>
+        <li><a href="admin.html" class="nav-link" style="color: var(--gold); font-weight: 600;">Private Ledger &rarr;</a></li>
+      </ul>
+      <div style="display: flex; gap: 12px;">
+        <button class="btn" onclick="openDossierModal('Download Private Dossier')">Request Dossier</button>
+        <button class="btn btn-gold" onclick="openDossierModal('Book Private Chauffeur Site Showing')">Book Showing</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- SPLIT-SCREEN EDITORIAL HERO -->
+  <header class="split-hero">
+    <div class="hero-narrative-col">
+      <span class="hero-eyebrow">Architectural Monograph 01</span>
+      <h1 class="hero-headline">
+        Where Raw Earth Meets <em>Uncompromising</em> Grandeur
+      </h1>
+      <p class="hero-prose">
+        Perched atop the ancient laterite cliffs of North Goa, The Aurelia Sanctuary represents an uncompromising dialogue between tropical brutalism and refined Italian craft. Only 18 bespoke private villa sanctuaries conceived for generational wealth.
+      </p>
+      <div class="hero-action-row">
+        <button class="btn btn-gold" onclick="openDossierModal('Schedule Chauffeur Private Viewing')">
+          Arrange Private Showing
+        </button>
+        <a href="#floorplans" class="btn">
+          Explore Floorplans
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-visual-col" id="heroVisual">
+      <div class="hero-visual-overlay"></div>
+      <div class="estate-badge-floating">
+        <div>
+          <div style="font-family: var(--font-heading); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;">Villa Alassio · Estate 02</div>
+          <div style="font-size: 12px; color: var(--sand-muted);">4,850 Sq.Ft · 4 En-Suite Bedrooms · Double Cantilever Pool</div>
+        </div>
+        <div style="font-family: var(--font-serif); font-size: 26px; color: var(--gold); font-weight: 600;">
+          ₹18.5 Cr
+        </div>
+      </div>
+    </div>
   </header>
 
-  <div class="split-viewport">
-    <!-- Left Scrolling Narrative -->
-    <div class="narrative-col">
-      <div class="vol-badge">FOLIO NO. 04 — ELEVATION 1,840 FT</div>
-      <h1 data-wl-tagline>A Sanctuary Sculpted in Limestone and Light.</h1>
-      <p class="narrative-p">Rising above the maritime horizon, The Aurelia presents 24 limited-edition sky residences designed by Foster & Partners. Each home features double-height 7.2m living pavilions, private cantilevered plunge pools, and uninterrupted 270° panorama.</p>
-
-      <!-- Floorplan Switcher -->
-      <div class="floorplan-card" id="residences">
-        <div class="plan-tabs">
-          <button class="plan-tab active" onclick="switchPlan(0)">3BHK Sky Villa</button>
-          <button class="plan-tab" onclick="switchPlan(1)">4BHK Duplex</button>
-          <button class="plan-tab" onclick="switchPlan(2)">Crown Penthouse</button>
-        </div>
-        <div class="plan-specs">
-          <div class="spec-item"><div style="color:#78716C;">CARPET AREA</div><div class="spec-val" id="specArea">3,850 SQ.FT</div></div>
-          <div class="spec-item"><div style="color:#78716C;">CEILING HEIGHT</div><div class="spec-val" id="specCeil">7.2 METERS</div></div>
-          <div class="spec-item"><div style="color:#78716C;">GUIDE PRICE</div><div class="spec-val" id="specPrice">₹ 24.50 CR</div></div>
-        </div>
-        <div style="background:#FFF; padding:18px; border:1px dashed var(--border-color); font-family:var(--font-mono); font-size:12px; color:#57534E;" id="planDesc">
-          Floorplate: North-East Wing · Private Direct Elevator · Italian Travertine Terrace · 4 Dedicated EV Basements
-        </div>
+  <!-- TIME OF DAY & SUN PATH CONTROLLER -->
+  <section class="sunpath-section">
+    <div class="container sunpath-inner">
+      <div class="sunpath-title">
+        <span>☀️ Architectural Lighting Scrub: </span>
+        <span id="currentSunLabel" style="color: var(--gold); font-weight: 600;">12:00 PM (High Noon Sun)</span>
       </div>
-
-      <!-- Financial Mortgage Calculator -->
-      <div class="emi-box">
-        <div style="font-family:var(--font-accent); font-size:22px; margin-bottom:12px;">Private Mortgage & Yield Estimator</div>
-        <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:8px;">
-          <span>Loan Quantum (80% LTV)</span>
-          <span style="font-weight:600;" id="emiLoan">₹ 19.60 CR</span>
-        </div>
-        <input type="range" min="10" max="40" value="20" style="width:100%; accent-color:var(--color-primary);" oninput="updateEmi(this.value)">
-        <div style="display:flex; justify-content:space-between; margin-top:14px; font-family:var(--font-mono); font-size:12px;">
-          <span>Monthly Amortization:</span>
-          <span style="font-size:16px; font-weight:700; color:var(--color-primary);" id="emiMonthly">₹ 18.2 LAKHS / MO</span>
-        </div>
-        <button class="inquire-btn" onclick="scheduleViewing()">Request Chauffeur & Private Viewing</button>
+      <div class="sunpath-pills">
+        <button class="sunpath-btn" onclick="setSunTime('dawn', this)">Dawn (6 AM)</button>
+        <button class="sunpath-btn active" onclick="setSunTime('noon', this)">High Noon (12 PM)</button>
+        <button class="sunpath-btn" onclick="setSunTime('golden', this)">Golden Hour (5:30 PM)</button>
+        <button class="sunpath-btn" onclick="setSunTime('night', this)">Stargaze (10 PM)</button>
       </div>
     </div>
+  </section>
 
-    <!-- Right Pinned Architecture Visualizer -->
-    <div class="viewer-col" id="viewerFrame">
-      <div class="viewer-overlay"></div>
-      <div class="viewer-content">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:1px; background:rgba(0,0,0,0.5); padding:6px 12px;">CAMERA PERSPECTIVE: 42° N</div>
-          <div class="angle-btns">
-            <button class="angle-btn active" onclick="switchAngle(0)">01 FAÇADE</button>
-            <button class="angle-btn" onclick="switchAngle(1)">02 SKY DECK</button>
-            <button class="angle-btn" onclick="switchAngle(2)">03 SALON</button>
+  <!-- INTERACTIVE HOTSPOT FLOORPLANS -->
+  <section class="editorial-section" id="floorplans">
+    <div class="container">
+      <span class="section-eyebrow">Interactive Space Schematics</span>
+      <h2 class="section-headline">Bespoke Architectural Floorplans</h2>
+
+      <div class="floorplan-container">
+        <div class="villa-tabs">
+          <button class="villa-tab active" onclick="switchVilla('alassio', this)">Villa Alassio (4,850 Sq.Ft)</button>
+          <button class="villa-tab" onclick="switchVilla('bellagio', this)">Villa Bellagio (6,200 Sq.Ft)</button>
+          <button class="villa-tab" onclick="switchVilla('penthouse', this)">Grand Penthouse (8,400 Sq.Ft)</button>
+        </div>
+
+        <div class="floorplan-canvas-wrap" id="floorplanCanvas">
+          <!-- SVG ARCHITECTURAL BLUEPRINT GRID -->
+          <svg class="blueprint-svg" viewBox="0 0 800 480" fill="none" stroke="currentColor" stroke-width="1.2" style="opacity: 0.6;">
+            <!-- Outer perimeter -->
+            <rect x="40" y="40" width="720" height="400" stroke="currentColor" stroke-width="2"></rect>
+            <!-- Living pavilion -->
+            <rect x="80" y="80" width="340" height="200" stroke="currentColor"></rect>
+            <!-- Pool deck -->
+            <rect x="460" y="80" width="260" height="150" stroke="currentColor" stroke-dasharray="4 4"></rect>
+            <!-- Master suite -->
+            <rect x="80" y="310" width="260" height="110" stroke="currentColor"></rect>
+            <!-- Wine cellar -->
+            <rect x="370" y="310" width="160" height="110" stroke="currentColor"></rect>
+            <!-- Spa cabana -->
+            <rect x="560" y="260" width="160" height="160" stroke="currentColor"></rect>
+          </svg>
+
+          <!-- INTERACTIVE HOTSPOTS -->
+          <div class="hotspot" style="top: 28%; left: 24%;" onclick="openRoomModal('living')">01</div>
+          <div class="hotspot" style="top: 24%; left: 74%;" onclick="openRoomModal('pool')">02</div>
+          <div class="hotspot" style="top: 76%; left: 22%;" onclick="openRoomModal('suite')">03</div>
+          <div class="hotspot" style="top: 76%; left: 54%;" onclick="openRoomModal('wine')">04</div>
+          <div class="hotspot" style="top: 68%; left: 82%;" onclick="openRoomModal('spa')">05</div>
+        </div>
+
+        <div style="margin-top: 24px; display: flex; justify-content: space-around; font-size: 13px; color: var(--sand-muted); flex-wrap: wrap; gap: 12px;">
+          <span>● 01: Double-Height Salon</span>
+          <span>● 02: Cantilever Infinity Pool</span>
+          <span>● 03: Master Penthouse Suite</span>
+          <span>● 04: Sommelier Wine Vault</span>
+          <span>● 05: Private Ayurvedic Spa</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HNW MORTGAGE & YIELD CALCULATOR -->
+  <section class="editorial-section" id="mortgage">
+    <div class="container">
+      <span class="section-eyebrow">Capital Structuring</span>
+      <h2 class="section-headline">Mortgage & High-Net-Worth Yield Ledger</h2>
+
+      <div class="calc-card">
+        <div>
+          <div class="calc-slider-group">
+            <div class="calc-slider-label">
+              <span>Villa Acquisition Value</span>
+              <span class="calc-slider-val" id="calcPriceVal">₹18.50 Cr</span>
+            </div>
+            <input type="range" class="calc-range" id="calcPrice" min="150000000" max="450000000" step="5000000" value="185000000" oninput="runRealEstateCalc()">
+          </div>
+
+          <div class="calc-slider-group">
+            <div class="calc-slider-label">
+              <span>Private Equity Down Payment</span>
+              <span class="calc-slider-val" id="calcDownVal">40% (₹7.4 Cr)</span>
+            </div>
+            <input type="range" class="calc-range" id="calcDown" min="20" max="70" step="5" value="40" oninput="runRealEstateCalc()">
+          </div>
+
+          <div class="calc-slider-group">
+            <div class="calc-slider-label">
+              <span>Tenure / Amortization</span>
+              <span class="calc-slider-val" id="calcTenureVal">15 Years</span>
+            </div>
+            <input type="range" class="calc-range" id="calcTenure" min="5" max="25" step="1" value="15" oninput="runRealEstateCalc()">
           </div>
         </div>
-        <div>
-          <div style="font-family:var(--font-accent); font-size:32px; font-weight:400; margin-bottom:6px;" id="angleTitle">South-West Horizon Façade</div>
-          <div style="font-family:var(--font-mono); font-size:12px; color:#A8A29E;" id="angleSub">Double-glazed acoustic low-iron curtain walling with warm anodized bronze fin detailing.</div>
+
+        <div class="calc-output-box">
+          <div style="font-size: 12px; font-family: var(--font-heading); letter-spacing: 0.15em; color: var(--sand-muted); text-transform: uppercase;">
+            Estimated Monthly Debt Service
+          </div>
+          <div class="emi-amount" id="calcEmiVal">₹10.92 Lakh</div>
+          <div style="font-size: 13px; color: var(--sand-muted); margin-bottom: 24px;">
+            At 8.4% benchmark sovereign HNW private banking rate
+          </div>
+
+          <div style="border-top: 1px solid var(--border-subtle); padding-top: 16px; display: flex; justify-content: space-between; font-size: 13px;">
+            <span>Projected Gross Yield:</span>
+            <span style="font-weight: 700; color: var(--gold);">11.4% p.a. (Luxury Stays)</span>
+          </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand" data-brand="brand_name">The Aurelia Sanctuary</div>
+      <div class="footer-tagline">"True luxury is silence, horizon, and stone that outlives centuries."</div>
+      <div style="display: flex; justify-content: center; gap: 32px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 30px;">
+        <a href="#estates" style="color: var(--espresso); text-decoration: none;">Villas</a>
+        <a href="#floorplans" style="color: var(--espresso); text-decoration: none;">Hotspots</a>
+        <a href="#mortgage" style="color: var(--espresso); text-decoration: none;">Yields</a>
+        <a href="admin.html" style="color: var(--gold); text-decoration: none;">Estate Ledger</a>
+      </div>
+      <div style="font-size: 12px; color: var(--sand-muted);">
+        &copy; 2026 <span data-brand="brand_name">The Aurelia Sanctuary</span>. All architectural blueprints confidential and registered.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ROOM DETAIL MODAL -->
+  <div class="room-modal-overlay" id="roomModal" onclick="closeRoomModal(event)">
+    <div class="room-modal-box" onclick="event.stopPropagation()">
+      <button class="room-modal-close" onclick="closeRoomModal()">&times;</button>
+      <img src="" class="room-modal-img" id="roomModalImg" alt="Room preview">
+      <div class="room-modal-content">
+        <h3 class="room-title" id="roomModalTitle">Double-Height Salon</h3>
+        <div class="room-specs" id="roomModalSpecs">1,120 Sq.Ft · 7.5m Ceiling Height · Raw Laterite & Travertine</div>
+        <p style="color: var(--sand-muted); font-size: 14px; line-height: 1.7;" id="roomModalDesc">
+          Floor-to-ceiling motorized Swiss frameless glazing opening fully onto the cliff edge infinity terrace. Hand-carved laterite stone chimney breast with wood-burning fireplace.
+        </p>
       </div>
     </div>
   </div>
 
-  <div style="position: fixed; bottom: 24px; right: 24px; z-index: 999;">
-    <a id="floatingWaBtn" href="https://wa.me/919876543210?text=Hi%2C%20I%20wish%20to%20inquire%20about%20The%20Aurelia%20Sky%20Villas" target="_blank" style="display:flex; align-items:center; gap:8px; background:var(--color-primary, #B88644); color:#FFF; padding:12px 22px; text-decoration:none; font-family:var(--font-mono); font-size:12px; letter-spacing:1px; box-shadow:var(--shadow-token);">
-      <span>DIRECT CONCIERGE</span>
-    </a>
+  <!-- DOSSIER & CHAUFFEUR MODAL -->
+  <div class="dossier-modal-overlay" id="dossierModal" onclick="closeDossierModal(event)">
+    <div class="dossier-modal" onclick="event.stopPropagation()">
+      <button class="room-modal-close" onclick="closeDossierModal()">&times;</button>
+      <h3 style="font-family: var(--font-serif); font-size: 28px; margin-bottom: 6px;" id="dossierModalTitle">Confidential Dossier</h3>
+      <p style="color: var(--sand-muted); font-size: 13px; margin-bottom: 24px;">
+        Direct transmission of private masterplan blueprints, unit availability ledger, and private banking terms.
+      </p>
+
+      <form onsubmit="handleDossierSubmit(event)">
+        <div class="form-group">
+          <label class="form-label">Title & Full Name *</label>
+          <input type="text" class="form-input" id="clientName" required placeholder="Lord Alistair Sterling">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Private Contact Phone *</label>
+          <input type="tel" class="form-input" id="clientPhone" required placeholder="+91 98201 00000">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Confidential Email *</label>
+          <input type="email" class="form-input" id="clientEmail" required placeholder="sterling@capital.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Preferred Chauffeur Pickup Location</label>
+          <input type="text" class="form-input" id="clientPickup" placeholder="The Leela / Dabolim VIP Terminal">
+        </div>
+        <button type="submit" class="btn btn-gold" style="width: 100%; margin-top: 10px;">
+          Unlock Dossier & Register Showing &rarr;
+        </button>
+      </form>
+    </div>
   </div>
 
+  <!-- TOAST -->
+  <div class="toast-box" id="toastNotice"></div>
+
   <script>
-    const plans = [
-      { area: "3,850 SQ.FT", ceil: "7.2 METERS", price: "₹ 24.50 CR", desc: "Floorplate: North-East Wing · Private Direct Elevator · Italian Travertine Terrace · 4 Dedicated EV Basements" },
-      { area: "5,400 SQ.FT", ceil: "7.8 METERS", price: "₹ 38.00 CR", desc: "Floorplate: Full 32nd Level · Double-Height Conservatory · 15m Cantilevered Pool · Maid & Butler Suite" },
-      { area: "8,900 SQ.FT", ceil: "8.5 METERS", price: "₹ 65.00 CR", desc: "Floorplate: Crown Triplex · Private Rooftop Helipad Access · 360° Arabian Sea View · 8 EV Basements" }
-    ];
-    const angles = [
-      { img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80", title: "South-West Horizon Façade", sub: "Double-glazed acoustic low-iron curtain walling with warm anodized bronze fin detailing." },
-      { img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80", title: "Private Sky Deck & Pool", sub: "Heated infinity pool overlooking the city skyline with seamless volcanic stone surround." },
-      { img: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80", title: "Grand Double-Height Salon", sub: "Book-matched Calacatta marble flooring with bespoke joinery and integrated architectural lighting." }
-    ];
+    // TIME OF DAY LIGHTING CONTROLLER
+    function setSunTime(time, el) {
+      document.querySelectorAll('.sunpath-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
 
-    function switchPlan(idx) {
-      document.querySelectorAll('.plan-tab').forEach((b, i) => b.classList.toggle('active', i === idx));
-      document.getElementById('specArea').textContent = plans[idx].area;
-      document.getElementById('specCeil').textContent = plans[idx].ceil;
-      document.getElementById('specPrice').textContent = plans[idx].price;
-      document.getElementById('planDesc').textContent = plans[idx].desc;
+      document.body.className = `time-${time}`;
+      const labels = {
+        dawn: '6:00 AM (First Light & Mist)',
+        noon: '12:00 PM (High Noon Sun)',
+        golden: '5:30 PM (Golden Amber Glow)',
+        night: '10:00 PM (Stargaze & Lanterns)'
+      };
+      document.getElementById('currentSunLabel').textContent = labels[time] || labels.noon;
     }
 
-    function switchAngle(idx) {
-      document.querySelectorAll('.angle-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
-      const f = document.getElementById('viewerFrame');
-      f.style.backgroundImage = 'url("' + angles[idx].img + '")';
-      document.getElementById('angleTitle').textContent = angles[idx].title;
-      document.getElementById('angleSub').textContent = angles[idx].sub;
+    // ROOM HOTSPOT DETAILS
+    const roomDetails = {
+      living: {
+        title: "Double-Height Grand Salon",
+        specs: "1,120 Sq.Ft · 7.5m Ceiling Height · Raw Laterite & Travertine",
+        desc: "Floor-to-ceiling motorized Swiss frameless glazing opening fully onto the cliff edge infinity terrace. Hand-carved laterite stone chimney breast with wood-burning fireplace.",
+        img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80"
+      },
+      pool: {
+        title: "Cantilever Infinity Pool & Cabana",
+        specs: "22m Length · Heated Saltwater · Sukabumi Stone Finish",
+        desc: "Engineered to float 8 meters out over the coastal bluff with glass viewing portals directly to the waves crashing 60 meters below.",
+        img: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1200&q=80"
+      },
+      suite: {
+        title: "Master Penthouse Suite",
+        specs: "980 Sq.Ft · 180° Ocean Vista · Outdoor Terrazzo Tub",
+        desc: "Private wing featuring walk-in Poliform dressing rooms, steam shower with rain curtain, and a private wraparound sunset deck.",
+        img: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1200&q=80"
+      },
+      wine: {
+        title: "Sommelier Climate-Controlled Vault",
+        specs: "1,200 Bottle Capacity · Triple-Glazed Argon · European Oak",
+        desc: "Dedicated tasting counter equipped with nitrogen preservation dispensing systems and vintage temperature zones.",
+        img: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=1200&q=80"
+      },
+      spa: {
+        title: "Private Ayurvedic Wellness Spa",
+        specs: "540 Sq.Ft · Cedar Sauna · Vichy Shower · Cold Plunge",
+        desc: "A sanctuary of rejuvenation built directly against the living rock face, complete with natural mineral water filtration.",
+        img: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80"
+      }
+    };
+
+    function openRoomModal(key) {
+      const d = roomDetails[key];
+      if (!d) return;
+      document.getElementById('roomModalTitle').textContent = d.title;
+      document.getElementById('roomModalSpecs').textContent = d.specs;
+      document.getElementById('roomModalDesc').textContent = d.desc;
+      document.getElementById('roomModalImg').src = d.img;
+      document.getElementById('roomModal').classList.add('open');
+    }
+    function closeRoomModal(e) {
+      document.getElementById('roomModal').classList.remove('open');
     }
 
-    function updateEmi(val) {
-      document.getElementById('emiLoan').textContent = '₹ ' + (val * 0.95).toFixed(2) + ' CR';
-      document.getElementById('emiMonthly').textContent = '₹ ' + (val * 0.9).toFixed(1) + ' LAKHS / MO';
+    // VILLAS TAB
+    function switchVilla(type, el) {
+      document.querySelectorAll('.villa-tab').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
     }
 
-    function scheduleViewing() {
-      const name = prompt("Please provide your name for the private concierge appointment:");
-      if (name) alert("Thank you " + name + ". Our Managing Director will coordinate private chauffeur access.");
+    // MORTGAGE CALCULATOR
+    function runRealEstateCalc() {
+      const price = parseFloat(document.getElementById('calcPrice').value);
+      const downPct = parseFloat(document.getElementById('calcDown').value);
+      const tenure = parseFloat(document.getElementById('calcTenure').value);
+
+      const priceCr = (price / 10000000).toFixed(2);
+      document.getElementById('calcPriceVal').textContent = `₹${priceCr} Cr`;
+
+      const downAmt = (price * (downPct / 100) / 10000000).toFixed(2);
+      document.getElementById('calcDownVal').textContent = `${downPct}% (₹${downAmt} Cr)`;
+      document.getElementById('calcTenureVal').textContent = `${tenure} Years`;
+
+      const loanAmt = price * (1 - downPct / 100);
+      const monthlyRate = 0.084 / 12;
+      const months = tenure * 12;
+      const emi = (loanAmt * monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+
+      const emiLakh = (emi / 100000).toFixed(2);
+      document.getElementById('calcEmiVal').textContent = `₹${emiLakh} Lakh`;
     }
+
+    // DOSSIER MODAL
+    function openDossierModal(title) {
+      if (title) document.getElementById('dossierModalTitle').textContent = title;
+      document.getElementById('dossierModal').classList.add('open');
+    }
+    function closeDossierModal(e) {
+      document.getElementById('dossierModal').classList.remove('open');
+    }
+
+    async function handleDossierSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('clientName').value;
+      const phone = document.getElementById('clientPhone').value;
+      const email = document.getElementById('clientEmail').value;
+      const pickup = document.getElementById('clientPickup').value;
+
+      try {
+        await fetch('/api/visits', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ guest_name: name, phone: phone, email: email, pickup_address: pickup })
+        });
+      } catch (err) {}
+
+      closeDossierModal();
+      showToast(`Private Dossier unlocked and chauffeur dispatched for ${name}.`);
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toastNotice');
+      t.textContent = msg;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 4000);
+    }
+
+    // INIT
+    runRealEstateCalc();
   </script>
 </body>
 </html>
