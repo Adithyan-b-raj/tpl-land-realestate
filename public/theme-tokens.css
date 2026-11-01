@@ -1,0 +1,17 @@
+/* Extracted via tpl-tools-design-extractor (Architectural Villa & Real Estate Editorial (Champagne Gold & Forest)) */
+:root {
+  --font-primary: 'Plus Jakarta Sans', sans-serif;
+  --font-accent: 'Cormorant Garamond', serif;
+  --color-primary: #B4833E;
+  --brand-primary: var(--color-primary);
+  --color-dark: #141E19;
+  --brand-dark: var(--color-dark);
+  --bg-main: #FAF8F5;
+  --bg-canvas: #F2ECE4;
+  --bg-sand: var(--bg-canvas);
+  --border-color: #E2D9CC;
+  --grid-gap-desktop: 32px 28px;
+  --grid-gap-mobile: 20px 16px;
+  --radius: 4px;
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+}
